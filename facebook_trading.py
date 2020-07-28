@@ -3,7 +3,6 @@ import pandas as pd
 import os
 
 facebook_data = os.path.join(os.path.dirname(__file__), 'FB.csv')
-
 df = pd.read_csv(facebook_data)
 
 data = pd.DataFrame()
@@ -55,6 +54,9 @@ def golden_cross(data):
 
 sell_values, buy_values = golden_cross(data)
 
+data['sell_indicator'] = sell_values
+data['buy_indicator'] = buy_values
+
 plt.plot(sell_values, color='red', marker = 'v', label='Sell')
 plt.plot(buy_values, color='green', marker = '^', label='Buy')
 
@@ -63,3 +65,4 @@ plt.ylabel('Price in USD')
 plt.xlabel('2006-01-01 - 2020-07-26')
 plt.legend()
 plt.show()
+
