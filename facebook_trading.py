@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
+from enum import Enum
 
 facebook_data = os.path.join(os.path.dirname(__file__), 'FB.csv')
 df = pd.read_csv(facebook_data)
@@ -21,28 +22,29 @@ plt.plot(data['moving_avg_200'], label='200-day moving avg.', alpha = 0.4)
 
 
 def golden_cross(data):
+    Decision = Enum('Decision', 'SELL BUY NONE')
     avg_50 = data['moving_avg_50']
     avg_200 = data['moving_avg_200'] 
     prices = data['Adj Close']
-    indicator = 0
+    indicator = Decision.NONE
 
     sell = []
     buy = []
-
+    ...
     for value in range(len(data)):
         if avg_50[value] > avg_200[value]:
-            if indicator != 1:
+            if indicator != Decision.BUY:
                 buy.append(prices[value])
                 sell.append(None)
-                indicator = 1
+                indicator = Decision.BUY
             else:
                 buy.append(None)
                 sell.append(None)
         elif avg_50[value] < avg_200[value]:
-            if indicator != 2:
+            if indicator != Decision.SELL:
                 buy.append(None)
                 sell.append(prices[value])
-                indicator = 2
+                indicator = Decision.SELL
             else:
                 buy.append(None)
                 sell.append(None)
